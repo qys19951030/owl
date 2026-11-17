@@ -35,10 +35,6 @@ struct rule_summary {
     struct length maximum;
     bool nullable;
 
-    // Bookkeeping for the maximum-length depth-first search: white (0) is
-    // unvisited, gray (1) is on the active search stack, black (2) is done.
-    unsigned char *max_color;
-
     // Bookkeeping for the reachability search.
     bool reachable;
 };
@@ -139,9 +135,9 @@ void print_rule_summary(FILE *file, const struct grammar *grammar,
     // Anything the walk doesn't touch can never participate in a match.
     mark_rule_reachable(&ctx, grammar->root_rule);
 
-    // Print one line per rule, in rule-table order, which is the order in
-    // which the rules appear in the grammar (with generated token rules
-    // inserted at the point of their first use).
+    // Print one line per rule, in rule-table order.  Grammar rules keep
+    // their order of appearance; the generated token rules are inserted at
+    // the point where they're first referenced.
     for (uint32_t i = 0; i < grammar->number_of_rules; ++i) {
         const struct rule *rule = grammar->rules[i];
         fprintf(file, "%.*s min=", (int)rule->name_length, rule->name);
@@ -157,7 +153,7 @@ void print_rule_summary(FILE *file, const struct grammar *grammar,
         fprintf(file, " nullable=%s\n", ctx.rules[i].nullable ? "yes" : "no");
     }
 
-    // The reachability list is filled in a later increment.
+    // Rules unreachable from the root, in rule-table order.
     fputs("unreachable:", file);
     bool first = true;
     for (uint32_t i = 0; i < grammar->number_of_rules; ++i) {
@@ -364,7 +360,6 @@ static struct length expression_minimum(struct summary_context *ctx,
     }
 }
 
-// Depth-first search for a rule's maximum length.  Re-entering an active
 // Depth-first search for a rule's maximum length.  Re-entering a gray rule
 // closes a cycle, which can repeat forever and therefore makes the maximum
 // infinite: the back edge returns infinity, and every rule unwinding below
