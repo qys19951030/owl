@@ -1,0 +1,4 @@
+root min=0 max=infinity nullable=yes
+ping min=0 max=infinity nullable=yes
+pong min=3 max=infinity nullable=no
+unreachable:

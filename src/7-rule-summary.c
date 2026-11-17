@@ -158,13 +158,12 @@ void print_rule_summary(FILE *file, const struct grammar *grammar,
     }
 
     // The reachability list is filled in a later increment.
-    fputs("unreachable: ", file);
+    fputs("unreachable:", file);
     bool first = true;
     for (uint32_t i = 0; i < grammar->number_of_rules; ++i) {
         if (ctx.rules[i].reachable)
             continue;
-        if (!first)
-            fputs(", ", file);
+        fputs(first ? " " : ", ", file);
         first = false;
         const struct rule *rule = grammar->rules[i];
         fprintf(file, "%.*s", (int)rule->name_length, rule->name);

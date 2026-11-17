@@ -1,0 +1,4 @@
+root min=0 max=infinity nullable=yes
+nested min=infinity max=infinity nullable=no
+tail min=infinity max=infinity nullable=no
+unreachable:

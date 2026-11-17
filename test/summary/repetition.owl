@@ -1,0 +1,11 @@
+#using owl.v4
+
+# Explicit repetition counts, including delimited lists.  Bounded
+# repetitions get finite maxima; '{n+}' and bare '{}' are unbounded.
+root = (exact ranged atleast anycount list onepiece)?
+exact = 'a'{3}
+ranged = 'b'{2, 4}
+atleast = 'c'{2+}
+anycount = 'd'{}
+list = 'e'{',', 1+}
+onepiece = 'f'

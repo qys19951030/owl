@@ -1,0 +1,6 @@
+root min=0 max=infinity nullable=yes
+expression min=1 max=infinity nullable=no
+plain min=1 max=1 nullable=no
+comparison min=1 max=3 nullable=no
+number min=1 max=1 nullable=no
+unreachable: plain, comparison

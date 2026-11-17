@@ -1,5 +1,13 @@
 #using owl.v4
 
-# Skeleton summary sample; the expected output is filled in together with the
-# implementation.
-root = 'a'?
+# Literals, sequences, choices and the simple repetition operators.  Every
+# literal counts as one token; sequences add; choices take the branch
+# extrema; '?' and '*' can match the empty string.  The root just names
+# each helper once so every rule is reachable without introducing
+# ambiguity on empty input.
+root = (sequence choice optional star plus)?
+sequence = 'a' 'b' 'c'
+choice = 'x' | 'abc' | ''
+optional = 'z'?
+star = 'q'*
+plus = 'w'+

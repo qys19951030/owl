@@ -1,0 +1,28 @@
+#using owl.v4
+
+# Named choices and operator groups.  Prefix and postfix groups repeat zero
+# or more times (infinite maximum, unchanged minimum); a non-associative
+# infix group can be used at most once and stays finite.  Self reference
+# needs guard brackets.
+root = expression*
+expression =
+    number : literal
+    [ '(' expression ')' ] : grouped
+  .operators prefix
+    '~' : negation
+  .operators infix nonassoc
+    '^' : power
+  .operators infix left
+    '+' : plus
+    '-' : minus
+  .operators postfix
+    '!' : factorial
+plain =
+    'a' : first
+    'b' : second
+# A rule whose only operators are non-associative stays bounded: the
+# operator can be used at most once, so its maximum is finite.
+comparison =
+    'a' : atom
+  .operators infix nonassoc
+    '=' : equal

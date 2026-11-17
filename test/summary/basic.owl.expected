@@ -1,0 +1,7 @@
+root min=0 max=infinity nullable=yes
+sequence min=3 max=3 nullable=no
+choice min=0 max=1 nullable=yes
+optional min=0 max=1 nullable=yes
+star min=0 max=infinity nullable=yes
+plus min=1 max=infinity nullable=no
+unreachable:

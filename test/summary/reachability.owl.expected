@@ -1,0 +1,11 @@
+root min=0 max=infinity nullable=yes
+word min=1 max=1 nullable=no
+count min=1 max=1 nullable=no
+ghost min=1 max=1 nullable=no
+dead min=1 max=1 nullable=no
+buried min=3 max=3 nullable=no
+identifier min=1 max=1 nullable=no
+integer min=1 max=1 nullable=no
+number min=1 max=1 nullable=no
+string min=1 max=1 nullable=no
+unreachable: ghost, dead, buried, number, string

@@ -1,0 +1,12 @@
+#using owl.v4
+
+# Rules that the root rule can never reach, plus the built-in token rules,
+# which are generated lazily on first reference and match one token each.
+# Earlier rules must be referenced from guard brackets, so helper rules are
+# declared after root.
+root = (word? count?)*
+word = identifier
+count = integer
+ghost = number | string
+dead = 'never'
+buried = [ '<' dead '>' ]

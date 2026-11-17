@@ -1,0 +1,11 @@
+#using owl.v4
+
+# Mutual recursion inside guard brackets: any cycle makes the maximum
+# infinite, but the minimum keeps converging because ping's empty branch
+# gives it a finite (zero-length) derivation.  The mutual reference lives
+# inside brackets, where references to earlier rules are allowed.
+root = (ping 'end')?
+ping =
+    [ '(' pong ')' ] : recurse
+    '' : stop
+pong = 'g' [ '[' ping ']' ]

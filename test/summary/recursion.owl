@@ -1,0 +1,9 @@
+#using owl.v4
+
+# Recursion is only legal inside guard brackets.  Both recursive rules can
+# grow without bound, so their maxima are infinity; the nullable variant
+# still converges to a finite minimum, while the other has no finite
+# derivation at all.
+root = (nested? tail?)*
+nested = [ '(' nested ')' ]
+tail = [ '[' tail ']' ] 'x'
