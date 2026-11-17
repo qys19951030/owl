@@ -33,6 +33,7 @@ test: owl
 	sh -c 'cd test; for i in *.owltest; do ../owl -T "$$i" > "results/$$i.stdout" 2> "results/$$i.stderr"; done;:'
 	sh -c 'TMP=`mktemp`; cd test; for i in *.owltest; do ../owl -T -c -o "$$TMP" "$$i" > "results/$$i.cc-stdout" 2> "results/$$i.cc-stderr"; done; rm "$$TMP";:'
 	git diff --stat --exit-code test/results
+	sh -c 'cd test/summary; for i in *.owl; do ../../owl -s "$$i" < /dev/null 2> "$$i.actual"; diff -u "$$i.expected" "$$i.actual" || exit 1; rm "$$i.actual"; done;:'
 	@echo "All tests passed."
 
 sysinfo:

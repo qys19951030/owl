@@ -4,6 +4,7 @@
 #include "5-determinize.h"
 #include "6a-generate.h"
 #include "6b-interpret.h"
+#include "7-rule-summary.h"
 #include "alloc.h"
 #include "terminal.h"
 #include "test.h"
@@ -40,6 +41,7 @@ int main(int argc, char *argv[])
     char *prefix_string = 0;
     char *input_string = 0;
     bool compile = false;
+    bool summary = false;
     bool test_format = false;
     enum {
         NO_PARAMETER,
@@ -89,6 +91,9 @@ int main(int argc, char *argv[])
             else if (!strcmp(short_name, "c") ||
              !strcmp(long_name, "compile"))
                 compile = true;
+            else if (!strcmp(short_name, "s") ||
+             !strcmp(long_name, "summary"))
+                summary = true;
             else if (!strcmp(short_name, "C") || !strcmp(long_name, "color"))
                 force_terminal_colors = true;
             else if (long_name[0] || short_name[0]) {
@@ -183,10 +188,10 @@ int main(int argc, char *argv[])
         needs_help = true;
     }
     if (needs_help) {
-        fprintf(stderr, "usage: owl [options] grammar.owl\n");
-        fprintf(stderr, " -i file     --input file       read from file instead of standard input\n");
+        fprintf(stderr, "usage: owl [options] grammar.owl\n");        fprintf(stderr, " -i file     --input file       read from file instead of standard input\n");
         fprintf(stderr, " -o file     --output file      write to file instead of standard output\n");
         fprintf(stderr, " -c          --compile          output a C header file instead of parsing input\n");
+        fprintf(stderr, " -s          --summary          print a structural summary of the grammar to standard error\n");
         fprintf(stderr, " -g grammar  --grammar grammar  specify the grammar text on the command line\n");
         fprintf(stderr, " -p prefix   --prefix prefix    output prefix_ instead of owl_ and parsed_\n");
         fprintf(stderr, " -T          --test-format      use test format with combined input and grammar\n");
@@ -195,6 +200,8 @@ int main(int argc, char *argv[])
         fprintf(stderr, " -h          --help             output this help text\n");
         return 1;
     }
+    if (compile && summary)
+        exit_with_errorf("the options -c/--compile and -s/--summary can't be used together");
     if (test_format) {
         size_t i = 0;
         int dash_count = 0;
@@ -295,6 +302,9 @@ int main(int argc, char *argv[])
 
     struct grammar grammar = {0};
     build(&grammar, tree, version);
+
+    if (summary)
+        print_rule_summary(stderr, &grammar, tree);
 
     struct combined_grammar combined = {0};
     combine(&combined, &grammar);
