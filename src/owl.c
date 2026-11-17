@@ -188,7 +188,8 @@ int main(int argc, char *argv[])
         needs_help = true;
     }
     if (needs_help) {
-        fprintf(stderr, "usage: owl [options] grammar.owl\n");        fprintf(stderr, " -i file     --input file       read from file instead of standard input\n");
+        fprintf(stderr, "usage: owl [options] grammar.owl\n");
+        fprintf(stderr, " -i file     --input file       read from file instead of standard input\n");
         fprintf(stderr, " -o file     --output file      write to file instead of standard output\n");
         fprintf(stderr, " -c          --compile          output a C header file instead of parsing input\n");
         fprintf(stderr, " -s          --summary          print a structural summary of the grammar to standard error\n");
